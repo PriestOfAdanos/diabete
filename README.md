@@ -1,5 +1,5 @@
 ## How to:
- - pip install requirements.txt
+ - pip install -r requirements.txt
  - uvicorn app:app --reload
  - http://127.0.0.1:8000/docs#/ <- testowanie endpointów
 
