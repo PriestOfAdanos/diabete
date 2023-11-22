@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -24,6 +25,13 @@ class DiabetesPredictionInput(BaseModel):
 load_dotenv()
 db = DatabaseManager()
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.post("/train")
