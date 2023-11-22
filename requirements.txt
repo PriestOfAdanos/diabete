@@ -20,3 +20,6 @@ threadpoolctl==3.2.0
 typing_extensions==4.8.0
 tzdata==2023.3
 uvicorn==0.24.0.post1
+pysqlitecipher==0.22
+python-dotenv==1.0.0
+python-multipart==0.0.6
