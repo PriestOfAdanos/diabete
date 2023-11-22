@@ -1,26 +1,27 @@
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException, UploadFile, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 import pandas as pd
+from fastapi.security import OAuth2PasswordRequestForm
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from dotenv import load_dotenv
 import joblib
 
 from db_manager import DatabaseManager
-
-
-class DiabetesPredictionInput(BaseModel):
-    pregnancies: int
-    glucose: float
-    blood_pressure: float
-    skin_thickness: float
-    insulin: float
-    bmi: float
-    diabetes_pedigree_function: float
-    age: int
-
+from jwt_utils import (
+    create_access_token,
+    create_refresh_token,
+    get_current_user,
+)
+from models import (
+    DiabetesPredictionInput,
+    UserRegister,
+    TokenSchema,
+    User,
+    UserOut,
+)
+from password_utils import verify_password
 
 load_dotenv()
 db = DatabaseManager()
@@ -35,7 +36,7 @@ app.add_middleware(
 
 
 @app.post("/train")
-async def train_model(file: UploadFile):
+async def train_model(file: UploadFile, user: User = Depends(get_current_user)):
     db.insert_diabetes_data(file.file)
 
     df = db.select_all_diabetes_data()
@@ -53,7 +54,9 @@ async def train_model(file: UploadFile):
 
 
 @app.post("/predict")
-async def predict_diabetes(input_data: DiabetesPredictionInput):
+async def predict_diabetes(
+    input_data: DiabetesPredictionInput, user: User = Depends(get_current_user)
+):
     try:
         model = joblib.load("diabetes_model.joblib")
     except FileNotFoundError:
@@ -67,5 +70,42 @@ async def predict_diabetes(input_data: DiabetesPredictionInput):
 
 
 @app.get("/data", response_class=HTMLResponse)
-async def get_data_from_database():
+async def get_data_from_database(user: User = Depends(get_current_user)):
     return db.select_all_diabetes_data().to_html(notebook=True)
+
+
+@app.post("/signup", summary="Create new user")
+async def create_user(data: UserRegister):
+    return db.create_doctor(data)
+
+
+@app.post(
+    "/login",
+    summary="Create access and refresh tokens for user",
+    response_model=TokenSchema,
+)
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = db.get_doctor(form_data.username)
+    print(form_data.username)
+    if user is None:
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+
+    hashed_pass = user.hashed_password
+    print(hashed_pass)
+    if not verify_password(form_data.password, hashed_pass):
+        raise HTTPException(
+            status_code=400,
+            detail="Incorrect email or password",
+        )
+
+    return {
+        "access_token": create_access_token(user.email),
+        "refresh_token": create_refresh_token(user.email),
+    }
+
+
+@app.get(
+    "/me", summary="Get details of currently logged in user", response_model=UserOut
+)
+async def get_me(user: User = Depends(get_current_user)):
+    return user
