@@ -9,7 +9,7 @@ import os
 import logging
 
 import password_utils
-from models import UserOut, UserRegister
+from db_models import UserOut, UserRegister
 
 
 class SingletonMeta(type):

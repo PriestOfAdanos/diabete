@@ -11,7 +11,7 @@ import os
 from pydantic import ValidationError
 
 from db_manager import DatabaseManager
-from models import TokenPayload, UserOut, User
+from db_models import TokenPayload, UserOut, User
 
 load_dotenv()
 

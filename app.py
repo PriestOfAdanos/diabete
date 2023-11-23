@@ -14,7 +14,7 @@ from jwt_utils import (
     create_refresh_token,
     get_current_user,
 )
-from models import (
+from db_models import (
     DiabetesPredictionInput,
     UserRegister,
     TokenSchema,
