@@ -23,3 +23,5 @@ uvicorn==0.24.0.post1
 pysqlitecipher==0.22
 python-dotenv==1.0.0
 python-multipart==0.0.6
+passlib==1.7.4
+python-jose==3.3.0
