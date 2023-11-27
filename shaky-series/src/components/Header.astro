@@ -1,11 +1,31 @@
 ---
-import Hamburger from '../components/Hamburger.astro';
 import ThemeIcon from './ThemeIcon.astro';
 ---
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <header>
   <nav>
-    <Hamburger/>
-    <ThemeIcon />
+      <a class="log-out" href="/login-page/"><i class="fa fa-sign-out" style="font-size:36px;color:white"></i></a>
+      <div class="nav-container">
+        <a class="link-to-pages" href="/add-patient">Add Patient</a>
+        <a class="link-to-pages" href="/">Predict</a>
+        <a class="link-to-pages" href="/patients/">All Patients</a>
+        <a class="link-to-pages" href="/train/">Train</a>
+      </div>
+      <ThemeIcon />
   </nav>
 </header>
 
+<style>
+  a.log-out{
+    float: left;
+  }
+  .nav-container{
+    display: inline-block;
+  }
+  a.link-to-pages{
+   border-style: none none solid none; 
+   border-radius: 4px;
+   margin: 0px 5px 0px 5px;
+   display:inline-block;
+  }
+</style>

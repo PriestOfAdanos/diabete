@@ -11,9 +11,13 @@ const { pageTitle } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
+  
   <body>
-    <Header />
-    <slot />
+    <Header/>
+    <div class="UploadFile">
+    <slot>
+</div>
+
   </body>
 </html>
 
