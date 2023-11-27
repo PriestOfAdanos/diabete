@@ -1,5 +1,5 @@
 ---
-const pageTitle = "Login";
+const pageTitle = "Sign Up";
 import '../styles/global.css';
 ---
 <html lang="en">
@@ -14,22 +14,34 @@ import '../styles/global.css';
   <body>
 <div class="UploadFile">
 
-        <h1 style="color:black;">Login</h1>
+        <h1 style="color:black;">Sign Up</h1>
         <form method="post">
+          <div class="txt_field">
+            <input type="text" required>
+            <span></span>
+            <label>Name</label>
+          </div>
+          <div class="txt_field">
+            <input type="text" required>
+            <span></span>
+            <label>Surname</label>
+          </div>
           <div class="txt_field">
             <input type="text" required>
             <span></span>
             <label>Email</label>
           </div>
           <div class="txt_field">
+            <input type="text" required>
+            <span></span>
+            <label>Phone Numer</label>
+          </div>
+          <div class="txt_field">
             <input type="password" required>
             <span></span>
             <label>Password</label>
           </div>
-          <input type="submit" value="Login">
-          <div class="signup_link">
-            You don't have an account? <a href="/signup-page">Signup</a>
-          </div>
+          <input type="submit" value="Sign Up">
         </form>
       </div>
 
