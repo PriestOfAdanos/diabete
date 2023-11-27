@@ -1,9 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "Login";
+import '../styles/global.css';
 ---
-<BaseLayout pageTitle={pageTitle}>
-    <div class="center">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  
+  <body>
+<div class="UploadFile">
+
         <h1 style="color:black;">Login</h1>
         <form method="post">
           <div class="txt_field">
@@ -127,4 +138,5 @@ input[type="submit"]:hover{
 }
 </style>
 
-</BaseLayout>
+</body>
+</html>

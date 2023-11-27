@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const pageTitle = "Add Patient";
+---
+<BaseLayout pageTitle={pageTitle}>
+    <section class="contact-form">
+        <form>
+
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text"/>
+            </div>
+
+            <div class="input-group">
+                <label for="surname">Surname</label>
+                <input id="surname" name="surname" type="text"/>
+            </div>
+
+            <div class="input-group">
+                <label for="id-num">ID</label>
+                <input id="id-num" name="id-num" type="text"/>
+            </div>
+
+            <button class="glob" type="submit">Add</button>
+        </form>
+    </section>
+</BaseLayout>

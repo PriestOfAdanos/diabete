@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const pageTitle = "Train";
+---
+<BaseLayout pageTitle={pageTitle}>
+<div>
+    <p class="center">Click button to train model:</p>
+    <button class="glob">Train</button>
+</div>
+
+
+</BaseLayout>
+
+<style>
+    :root {
+  --color-lightest: #f9fdfe;
+  --color-gray-light: #cdcfcf;
+  --color-gray-medium: #686a69;
+  --color-gray-dark: #414643;
+  --color-darkest: #2a2f2c;
+}
+
+div {
+    text-align: center;
+}
+
+p {
+    display: inline-block;
+}
+
+button{
+    display: inline-block;
+}
+</style>
