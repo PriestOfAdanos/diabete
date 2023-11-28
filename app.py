@@ -1,3 +1,6 @@
+import datetime
+from typing import List
+
 from fastapi import FastAPI, HTTPException, UploadFile, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -20,6 +23,9 @@ from db_models import (
     TokenSchema,
     User,
     UserOut,
+    Patient,
+    PredictionInput,
+    DiabetesHistoricalOutput,
 )
 from password_utils import verify_password
 
@@ -55,7 +61,7 @@ async def train_model(file: UploadFile, user: User = Depends(get_current_user)):
 
 @app.post("/predict")
 async def predict_diabetes(
-    input_data: DiabetesPredictionInput, user: User = Depends(get_current_user)
+    input_data: PredictionInput, user: User = Depends(get_current_user)
 ):
     try:
         model = joblib.load("diabetes_model.joblib")
@@ -63,9 +69,28 @@ async def predict_diabetes(
         raise HTTPException(
             status_code=500, detail="Model not found. Please train the model first."
         )
-    input_df = pd.DataFrame([input_data.dict()])
+
+    input_df = pd.DataFrame([input_data.input.model_dump()])
     prediction = model.predict(input_df)
     prediction_native_type = int(prediction[0])  # or float, as appropriate
+
+    if input_data.patient_id is not None:
+        db.add_historical_data_to_patient(
+            patient_id=input_data.patient_id,
+            output=DiabetesHistoricalOutput(
+                pregnancies=input_data.input.pregnancies,
+                glucose=input_data.input.glucose,
+                blood_pressure=input_data.input.blood_pressure,
+                skin_thickness=input_data.input.skin_thickness,
+                insulin=input_data.input.insulin,
+                bmi=input_data.input.bmi,
+                diabetes_pedigree_function=input_data.input.diabetes_pedigree_function,
+                age=input_data.input.age,
+                prediction=bool(prediction_native_type),
+                created_at=datetime.datetime.today().timestamp(),
+            ),
+        )
+
     return {"prediction": prediction_native_type}
 
 
@@ -109,3 +134,15 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 )
 async def get_me(user: User = Depends(get_current_user)):
     return user
+
+
+@app.post("/patient", summary="Adds new patient to database", response_model=Patient)
+async def create_patient(patient_data: Patient, user: User = Depends(get_current_user)):
+    return db.create_patient(patient_data)
+
+
+@app.get(
+    "/patient", summary="Get list of patients with data", response_model=List[Patient]
+)
+async def get_users(user: User = Depends(get_current_user)):
+    return db.get_patients()
