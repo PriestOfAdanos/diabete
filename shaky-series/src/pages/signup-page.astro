@@ -15,37 +15,77 @@ import '../styles/global.css';
 <div class="UploadFile">
 
         <h1 style="color:black;">Sign Up</h1>
+        <section class="contact-form">
         <form method="post">
           <div class="txt_field">
-            <input type="text" required>
+            <input id="first_name" name="first_name" type="text" required>
             <span></span>
             <label>Name</label>
           </div>
           <div class="txt_field">
-            <input type="text" required>
+            <input id="last_name" name="last_name" type="text" required>
             <span></span>
             <label>Surname</label>
           </div>
           <div class="txt_field">
-            <input type="text" required>
+            <input id="email" name="email" type="text" required>
             <span></span>
             <label>Email</label>
           </div>
           <div class="txt_field">
-            <input type="text" required>
+            <input id="phone_number" name="phone_number" type="number" required>
             <span></span>
             <label>Phone Numer</label>
           </div>
           <div class="txt_field">
-            <input type="password" required>
+            <input id="password" name="password" type="text" required>
             <span></span>
             <label>Password</label>
           </div>
-          <input type="submit" value="Sign Up">
+          <button class="glob" type="submit">Sign Up</button>
+          <div class="signup_link">
+             <a href="/login-page">Back to login page</a>
+          </div>
         </form>
+    </section>
       </div>
 
+      <script>
+        function handleFormSubmit(event) {
+          event.preventDefault();
+          
+          const data = new FormData(event.target);
+          const formJSON = {};
+          
+          data.forEach((value, key) => {
+            formJSON[key] = /^\d+$/.test(value) ? String(value) : value;
+          });
+          console.log(JSON.stringify(formJSON, null, 2));
+          
+          fetch('http://127.0.0.1:8000/signup', {
+            credentials: "same-origin",
+            method: 'POST',
+            headers: {
+              'accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formJSON, null, 2)
+          })
+           .then(response => response.json())
+           .then(response => console.log(JSON.stringify(response)));
+        }
+        
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', handleFormSubmit);
+      </script>
+
+
+
+</body>
+</html>
+
 <style>
+
     .center{
   position: absolute;
   top: 50%;
@@ -134,7 +174,8 @@ input[type="submit"]:hover{
   transition: .5s;
 }
 .signup_link{
-  margin: 30px 0;
+    float: right;
+  margin: 10px 20px;
   text-align: center;
   font-size: 16px;
   color: #666666;
@@ -147,6 +188,3 @@ input[type="submit"]:hover{
   text-decoration: underline;
 }
 </style>
-
-</body>
-</html>

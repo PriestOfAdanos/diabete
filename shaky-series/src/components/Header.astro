@@ -4,7 +4,8 @@ import ThemeIcon from './ThemeIcon.astro';
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <header>
   <nav>
-      <a class="log-out" href="/login-page/"><i class="fa fa-sign-out" style="font-size:36px;color:white"></i></a>
+
+      <a class="log-out"><i class="fa fa-sign-out" style="font-size:36px;color:white"></i></a>
       <div class="nav-container">
         <a class="link-to-pages" href="/add-patient">Add Patient</a>
         <a class="link-to-pages" href="/">Predict</a>
@@ -13,7 +14,18 @@ import ThemeIcon from './ThemeIcon.astro';
       </div>
       <ThemeIcon />
   </nav>
+
 </header>
+
+<script>
+  const button = document.querySelector(".log-out");
+  
+  button.addEventListener("click", (event) => {
+    localStorage.removeItem("SavedToken");
+    window.location.href = "/login-page";
+  });
+        
+        </script>
 
 <style>
   a.log-out{
