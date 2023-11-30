@@ -18,11 +18,9 @@ from jwt_utils import (
     get_current_user,
 )
 from db_models import (
-    DiabetesPredictionInput,
     UserRegister,
     TokenSchema,
     User,
-    UserOut,
     Patient,
     PredictionInput,
     DiabetesHistoricalOutput,
@@ -129,9 +127,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     }
 
 
-@app.get(
-    "/me", summary="Get details of currently logged in user", response_model=UserOut
-)
+@app.get("/me", summary="Get details of currently logged in user", response_model=User)
 async def get_me(user: User = Depends(get_current_user)):
     return user
 

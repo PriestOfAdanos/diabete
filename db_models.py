@@ -44,7 +44,6 @@ class User(BaseModel):
 
 class UserOut(User):
     hashed_password: str
-    last_login: datetime
 
 
 class UserRegister(User):
