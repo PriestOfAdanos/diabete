@@ -68,7 +68,6 @@ class DatabaseManager(metaclass=SingletonMeta):
                 ["email", "TEXT"],
                 ["phone_number", "TEXT"],
                 ["hashed_password", "TEXT"],
-                ["last_login", "REAL"],
             ],
             True,
             True,
@@ -82,7 +81,6 @@ class DatabaseManager(metaclass=SingletonMeta):
                 "senior_registrar@hospital.com",
                 "+48-111-222-333",
                 password_utils.get_hashed_password(os.getenv("DEV_PASSWORD")),
-                datetime.datetime.now().timestamp(),
             ],
             True,
         )
@@ -137,7 +135,6 @@ class DatabaseManager(metaclass=SingletonMeta):
                     email=d[3],
                     phone_number=d[4],
                     hashed_password=d[5],
-                    last_login=datetime.datetime.fromtimestamp(d[6]),
                 )
         return None
 
@@ -157,7 +154,6 @@ class DatabaseManager(metaclass=SingletonMeta):
                 user.email,
                 user.phone_number,
                 password_utils.get_hashed_password(user.password),
-                None,
             ],
             True,
         )
