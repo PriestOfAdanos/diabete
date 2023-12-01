@@ -57,7 +57,7 @@ import '../styles/global.css';
      {
       if (response.status == 200) {
             response.json().then(data => {
-                localStorage.setItem("SavedToken", data["access_token"]);
+                localStorage.setItem("SavedToken", "Bearer " + data["access_token"]);
             });
             
             window.location.href = "/";

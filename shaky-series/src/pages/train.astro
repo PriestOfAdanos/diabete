@@ -2,14 +2,55 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "Train";
 ---
+
+<script src="../scripts/checkToken.js"/>
+
 <BaseLayout pageTitle={pageTitle}>
 <div>
-    <p class="center">Click button to train model:</p>
+    <form id="trainForm">
+    <section class="contact-form">
+    <label for="csvToTrain">Select a file:</label>
+    <input type="file" id="csvToTrain" name="myfile" accept="text/csv"/>
     <button class="glob">Train</button>
+    <section/>
+</form>
 </div>
-
-
 </BaseLayout>
+
+
+<script>
+    function sendDataToTrain(event) {
+        event.preventDefault();
+
+        let tokenToSend = `${localStorage.getItem("SavedToken")}`;
+
+        let fileInput = (document.getElementById("csvToTrain") as HTMLInputElement);
+    let file = fileInput.files[0];
+
+    let formData = new FormData();
+    formData.append('file', file, file.name);
+
+      fetch('http://127.0.0.1:8000/train', {
+        credentials: "same-origin",
+        method: 'POST',
+        headers: {
+          'accept': 'application/json',
+          'Authorization': tokenToSend
+        },
+        body: formData
+      }).then(response => 
+       {
+        if (response.status == 200) {
+
+              
+        }
+       });
+    }
+    
+    var button = document.querySelector(".glob");
+  button.addEventListener('click', sendDataToTrain);
+</script>
+
 
 <style>
     :root {
@@ -24,9 +65,10 @@ div {
     text-align: center;
 }
 
-p {
-    display: inline-block;
+label {
+    text-align: center;
 }
+
 
 button{
     display: inline-block;
