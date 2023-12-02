@@ -4,6 +4,114 @@ const pageTitle = "Patients";
 ---
 
 <script src="../scripts/checkToken.js"/>
+<script>
+
+
+</script>
+
 
 <BaseLayout pageTitle={pageTitle}>
+    <section class="contact-form" >
+
+        <div class="input-group">
+            <label for="pregnancies">List of patients</label>
+        <select class="input-group" id="selectedValue"  size="4">
+
+        </select>
+        <div/>
+
+        <div class="input-group">
+            <label for="pregnancies">Historical data</label>
+        <div id="histData" class="input-group">
+
+        </div>
+        <div/>
+
+        <section/>
+        <script>
+
+    let dataGlob;  
+    let tokenToSend = `${localStorage.getItem("SavedToken")}`;
+    
+    fetch('http://127.0.0.1:8000/patient', {
+      credentials: "same-origin",
+      method: 'GET',
+      headers: {
+        'accept': 'application/json',
+        'Authorization': tokenToSend
+      },
+
+    }).then(response => 
+    {
+    
+    response.json().then(data => {
+        const select = document.querySelector('select'); 
+        console.log(data);
+        dataGlob = data;
+                console.log(dataGlob);
+            for (var i = 0; i < data.length; i++){
+                let newOption = new Option(`${data[i]["first_name"]} ${data[i]["last_name"]} ${data[i]["PESEL"]}`,`${data[i]["id"]}`);
+
+                select.add(newOption,undefined)}
+        });
+ });
+            function valueChanges() {
+            var e = document.getElementById("selectedValue");
+            var value = parseInt(e.value);
+            const historicData = document.getElementById("histData"); 
+            historicData.innerHTML = '';
+            var iDiv;
+            var label;
+            var dateAndTime;
+            var pregn;
+            var gluc;
+            var blood;
+            var skin;
+            var insulin;
+            var bmi;
+            var dpf;
+            var age;
+            var pred;
+            var hrTag;
+            var dateAndTimeArray = {};
+                        for (var i = 0; i < dataGlob[value]["historical_data"].length; i++){
+                            pregn = document.createElement('div');
+                            gluc = document.createElement('div');
+                            blood = document.createElement('div');
+                            skin = document.createElement('div');
+                            insulin = document.createElement('div');
+                            bmi = document.createElement('div');
+                            dpf = document.createElement('div');
+                            age = document.createElement('div');
+                            pred = document.createElement('div');
+                            label = document.createElement('label');
+                            hrTag = document.createElement('hr');
+                           console.log(dataGlob[value]["historical_data"][i]);
+                           dateAndTime = dataGlob[value]["historical_data"][i]["created_at"];
+                           dateAndTimeArray = dateAndTime.split("T");
+                           console.log(dateAndTimeArray);
+                           historicData.appendChild(label).innerText = `Date and Time: ${dateAndTimeArray[0]} ${dateAndTimeArray[1].substring(0,8)}`;
+                           historicData.appendChild(pregn).innerText = `Number of pregnancies: ${dataGlob[value]["historical_data"][i]["pregnancies"]}`;
+                           historicData.appendChild(gluc).innerText = `Glucose: ${dataGlob[value]["historical_data"][i]["glucose"]}`;
+                           historicData.appendChild(blood).innerText = `Blood pressure: ${dataGlob[value]["historical_data"][i]["blood_pressure"]}`;
+                           historicData.appendChild(skin).innerText = `Skin thickness: ${dataGlob[value]["historical_data"][i]["skin_thickness"]}`;
+                           historicData.appendChild(insulin).innerText = `Insulin: ${dataGlob[value]["historical_data"][i]["insulin"]}`;
+                           historicData.appendChild(bmi).innerText = `BMI: ${dataGlob[value]["historical_data"][i]["bmi"]}`;
+                           historicData.appendChild(dpf).innerText = `Diabetes Pedigre Function: ${dataGlob[value]["historical_data"][i]["diabetes_pedigree_function"]}`;
+                           historicData.appendChild(age).innerText = `Age: ${dataGlob[value]["historical_data"][i]["age"]}`;
+                           historicData.appendChild(pred).innerText = `Has Diabetes? ${dataGlob[value]["historical_data"][i]["prediction"]}`;
+                           historicData.appendChild(hrTag);
+                        } 
+            }
+
+            document.getElementById('selectedValue').addEventListener('change',valueChanges);
+            valueChanges();
+        </script>
 </BaseLayout>
+
+<style>
+    #histData{
+        max-height: 800px;
+        overflow: auto;
+        }
+</style>

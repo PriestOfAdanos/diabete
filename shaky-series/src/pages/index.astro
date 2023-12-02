@@ -5,8 +5,43 @@ const pageTitle = "Home";
 
 <script src="../scripts/checkToken.js"/>
 
+<script>
+    let tokenToSend = `${localStorage.getItem("SavedToken")}`;
+        
+        fetch('http://127.0.0.1:8000/patient', {
+          credentials: "same-origin",
+          method: 'GET',
+          headers: {
+            'accept': 'application/json',
+            'Authorization': tokenToSend
+          },
+    
+        }).then(response => 
+         {
+    
+            response.json().then(data => {
+                const select = document.querySelector('select'); 
+                let defOption = new Option("-----",null);
+                console.log(data[1]);
+                select.add(defOption,undefined);
+                    for (var i = 0; i < data.length; i++){
+                        let newOption = new Option(`${data[i]["first_name"]} ${data[i]["last_name"]} ${data[i]["PESEL"]}`,`${data[i]["id"]}`);
+                        
+                        select.add(newOption,undefined)}
+                });
+         });
+    </script>
+
 <BaseLayout pageTitle={pageTitle}>
-        <section class="contact-form">
+
+
+        <section class="contact-form" >
+            <div class="input-group">
+                <label for="pregnancies">List of patients</label>
+            <select class="input-group" id="selectedValue"  size="4">
+
+            </select>
+        </div>
             <form>
 
                 <div class="input-group">
@@ -40,7 +75,7 @@ const pageTitle = "Home";
                 </div>
 
                 <div class="input-group">
-                    <label for="dpf">Diabetes Pending Function</label>
+                    <label for="dpf">Diabetes Pedigree Function</label>
                     <input id="dpf" name="diabetes_pedigree_function" type="number"/>
                 </div>
 
@@ -64,20 +99,25 @@ const pageTitle = "Home";
     <script>
         function handleFormSubmit(event) {
           event.preventDefault();
-          
+          let tokenToSend = `${localStorage.getItem("SavedToken")}`;
+          var e = document.getElementById("selectedValue");
+          var value = parseInt(e.value);
           const data = new FormData(event.target);
           const formJSON = {};
-          
+          const dataJSON = {};
+          console.log(data);
           data.forEach((value, key) => {
-            formJSON[key] = /^\d+$/.test(value) ? parseInt(value) : value;
+            dataJSON[key] = /^\d+$/.test(value) ? parseFloat(value) : value;
           });
-          
-          
+          formJSON["patient_id"] = value;
+          formJSON["input"] = dataJSON;
+          console.log(formJSON);
           fetch('http://127.0.0.1:8000/predict', {
             credentials: "same-origin",
             method: 'POST',
             headers: {
               'accept': 'application/json',
+              'Authorization': tokenToSend,
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(formJSON, null, 2)
@@ -90,4 +130,3 @@ const pageTitle = "Home";
         form.addEventListener('submit', handleFormSubmit);
       </script>
 </BaseLayout>
-

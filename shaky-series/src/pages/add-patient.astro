@@ -9,21 +9,63 @@ const pageTitle = "Add Patient";
         <form>
 
             <div class="input-group">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text"/>
+                <label for="PESEL">PESEL</label>
+                <input id="PESEL" name="PESEL" type="number"/>
             </div>
 
             <div class="input-group">
-                <label for="surname">Surname</label>
-                <input id="surname" name="surname" type="text"/>
+                <label for="first_name">Name</label>
+                <input id="first_name" name="first_name" type="text"/>
             </div>
 
             <div class="input-group">
-                <label for="id-num">ID</label>
-                <input id="id-num" name="id-num" type="text"/>
+                <label for="last_name">Surname</label>
+                <input id="last_name" name="last_name" type="text"/>
+            </div>
+
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email"/>
+            </div>
+
+            <div class="input-group">
+                <label for="phone_number">Phone Number</label>
+                <input id="phone_number" name="phone_number" type="number"/>
             </div>
 
             <button class="glob" type="submit">Add</button>
         </form>
     </section>
+
+    <script>
+        function handleFormSubmit(event) {
+          event.preventDefault();
+          
+          const data = new FormData(event.target);
+              const formJSON = {};
+              formJSON["id"] = null;
+              data.forEach((value, key) => {
+                formJSON[key] = /^\d+$/.test(value) ? String(value) : value;
+              });
+              formJSON["historical_data"] = null;
+              console.log(JSON.stringify(formJSON, null, 2));
+    
+          let tokenToSend = `${localStorage.getItem("SavedToken")}`;
+      
+          fetch('http://127.0.0.1:8000/patient', {
+            credentials: "same-origin",
+            method: 'POST',
+            headers: {
+              'accept': 'application/json',
+              'Authorization': tokenToSend,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formJSON, null, 2)
+          })};
+        
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', handleFormSubmit);
+      </script>
+
 </BaseLayout>
+
