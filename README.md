@@ -107,3 +107,10 @@ Dokumentacja prezentuje API do predykcji cukrzycy zaimplementowane za pomocą Fa
  ```bash 
  curl -X 'POST' 'http://127.0.0.1:8000/train'  -H 'accept: application/json' -d ''
  ```
+
+## Testowanie
+odpalamy aplikację jak ^
+uruchamiamy komendę:
+```bash 
+python3 ./tests/test.py
+```
