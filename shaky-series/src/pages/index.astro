@@ -46,42 +46,42 @@ const pageTitle = "Home";
 
                 <div class="input-group">
                     <label for="pregnancies">Pregnancies</label>
-                    <input class="inptClass" id="pregnancies" name="pregnancies" type="number" min="0"/>
+                    <input class="inptClass" id="pregnancies" name="pregnancies" type="number" min="0" required/>
                 </div>
 
                 <div class="input-group">
                     <label for="Glucose">Glucose</label>
-                    <input class="inptClass1" id="Glucose" name="glucose" type="number" min="0"/>
+                    <input class="inptClass1" id="Glucose" name="glucose" type="number" min="0" required/>
                 </div>
 
                 <div class="input-group">
                     <label for="name">Blood Pressure</label>
-                    <input class="inptClass2" id="name" name="blood_pressure" type="number" min="0"/>
+                    <input class="inptClass2" id="name" name="blood_pressure" type="number" min="0" required/>
                 </div>
 
                 <div class="input-group">
                     <label for="SkinThicc">Skin Thickness</label>
-                    <input class="inptClass3" id="SkinThicc" name="skin_thickness" type="number" min="0"/>
+                    <input class="inptClass3" id="SkinThicc" name="skin_thickness" type="number" min="0" required/>
                 </div>
 
                 <div class="input-group">
                     <label for="Insulin">Insulin</label>
-                    <input class="inptClass4" id="Insulin" name="insulin" type="number" min="0"/>
+                    <input class="inptClass4" id="Insulin" name="insulin" type="number" min="0" required/>
                 </div>
 
                 <div class="input-group">
                     <label for="BMI">BMI</label>
-                    <input class="inptClass5" id="BMI" name="bmi" type="number" min="0"/>
+                    <input class="inptClass5" id="BMI" name="bmi" type="number" min="0" required/>
                 </div>
 
                 <div class="input-group">
                     <label for="dpf">Diabetes Pedigree Function</label>
-                    <input class="inptClass6" id="dpf" name="diabetes_pedigree_function" type="number" min="0"/>
+                    <input class="inptClass6" id="dpf" name="diabetes_pedigree_function" type="number" min="0" required/>
                 </div>
 
                 <div class="input-group">
                     <label for="age">Age</label>
-                    <input class="inptClass7" id="age" name="age" type="number" min="1" step="1"/>
+                    <input class="inptClass7" id="age" name="age" type="number" min="1" step="1" required/>
                 </div>
 
                 <div class="input-group">
@@ -136,12 +136,12 @@ const pageTitle = "Home";
                 predd.innerHTML = '';
                 sth = parseInt(data.prediction);
                 if (sth != 0 ) {
-                    isIt = false;
+                    isIt = "Patient doesn't have diabetes";
                 }
                 else{
-                    isIt = true;
+                    isIt = "Patient does have diabetes";
                 }
-           y = document.createTextNode("Prediction: " + isIt);
+           y = document.createTextNode(isIt);
            predd.appendChild(y);
            });
         });

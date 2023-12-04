@@ -18,12 +18,12 @@ import '../styles/global.css';
         <section class="contact-form">
         <form method="post">
           <div class="txt_field">
-            <input id="first_name" name="first_name" type="text" required>
+            <input class="inptClass2" id="first_name" name="first_name" type="text" required>
             <span></span>
             <label>Name</label>
           </div>
           <div class="txt_field">
-            <input id="last_name" name="last_name" type="text" required>
+            <input class="inptClass3" id="last_name" name="last_name" type="text" required>
             <span></span>
             <label>Surname</label>
           </div>
@@ -33,7 +33,7 @@ import '../styles/global.css';
             <label>Email</label>
           </div>
           <div class="txt_field">
-            <input id="phone_number" name="phone_number" type="number" required>
+            <input class="inptClass5" id="phone_number" name="phone_number" type="number"  type="number" min="0" step="1" max="999999999" required>
             <span></span>
             <label>Phone Numer</label>
           </div>
@@ -74,7 +74,31 @@ import '../styles/global.css';
            .then(response => response.json())
            .then(response => console.log(JSON.stringify(response)));
         }
-        
+        document.querySelector(".inptClass2").addEventListener("keypress", function (evt) {
+    var charCode1 = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode1 >= 65 && charCode1 <= 90) || (charCode1 >= 97 && charCode1 <= 122)) {
+        // Allow the key press
+    } else {
+        // Prevent the key press if it doesn't meet the criteria
+        evt.preventDefault();
+    }
+});
+document.querySelector(".inptClass3").addEventListener("keypress", function (evt) {
+    var charCode2 = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode2 >= 65 && charCode2 <= 90) || (charCode2 >= 97 && charCode2 <= 122)) {
+        // Allow the key press
+    } else {
+        // Prevent the key press if it doesn't meet the criteria
+        evt.preventDefault();
+    }
+});
+
+        document.querySelector(".inptClass5").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
         const form = document.querySelector('.contact-form');
         form.addEventListener('submit', handleFormSubmit);
       </script>
