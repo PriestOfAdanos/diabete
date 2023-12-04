@@ -12,27 +12,27 @@ const pageTitle = "Add Patient";
 
             <div class="input-group">
                 <label for="PESEL">PESEL</label>
-                <input id="PESEL" name="PESEL" type="number" min="1" step="1"/>
+                <input class="inptClass1" id="PESEL" name="PESEL" type="number" min="1" step="1"/>
             </div>
 
             <div class="input-group">
                 <label for="first_name">Name</label>
-                <input id="first_name" name="first_name" type="text"/>
+                <input class="inptClass2" id="first_name" name="first_name" type="text"/>
             </div>
 
             <div class="input-group">
                 <label for="last_name">Surname</label>
-                <input id="last_name" name="last_name" type="text"/>
+                <input class="inptClass3" id="last_name" name="last_name" type="text"/>
             </div>
 
             <div class="input-group">
                 <label for="email">Email</label>
-                <input id="email" name="email" type="email"/>
+                <input class="inptClass4" id="email" name="email" type="email"/>
             </div>
 
             <div class="input-group">
                 <label for="phone_number">Phone Number</label>
-                <input id="phone_number" name="phone_number" type="number" min="1" step="1"/>
+                <input class="inptClass5" id="phone_number" name="phone_number" type="number" min="1" step="1"/>
             </div>
 
             <button class="glob" type="submit">Add</button>
@@ -86,7 +86,37 @@ setTimeout(function(){ snack.className = snack.className.replace("show", ""); },
       }
      });
     };
-        
+    document.querySelector(".inptClass1").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+document.querySelector(".inptClass2").addEventListener("keypress", function (evt) {
+    var charCode1 = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode1 >= 65 && charCode1 <= 90) || (charCode1 >= 97 && charCode1 <= 122)) {
+        // Allow the key press
+    } else {
+        // Prevent the key press if it doesn't meet the criteria
+        evt.preventDefault();
+    }
+});
+document.querySelector(".inptClass3").addEventListener("keypress", function (evt) {
+    var charCode2 = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode2 >= 65 && charCode2 <= 90) || (charCode2 >= 97 && charCode2 <= 122)) {
+        // Allow the key press
+    } else {
+        // Prevent the key press if it doesn't meet the criteria
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".inptClass5").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
         const form = document.querySelector('.contact-form');
         form.addEventListener('submit', handleFormSubmit);
       </script>
