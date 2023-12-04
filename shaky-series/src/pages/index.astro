@@ -46,45 +46,48 @@ const pageTitle = "Home";
 
                 <div class="input-group">
                     <label for="pregnancies">Pregnancies</label>
-                    <input id="pregnancies" name="pregnancies" type="number"/>
+                    <input class="inptClass" id="pregnancies" name="pregnancies" type="number" min="0"/>
                 </div>
 
                 <div class="input-group">
                     <label for="Glucose">Glucose</label>
-                    <input id="Glucose" name="glucose" type="number"/>
+                    <input class="inptClass1" id="Glucose" name="glucose" type="number" min="0"/>
                 </div>
 
                 <div class="input-group">
                     <label for="name">Blood Pressure</label>
-                    <input id="name" name="blood_pressure" type="number"/>
+                    <input class="inptClass2" id="name" name="blood_pressure" type="number" min="0"/>
                 </div>
 
                 <div class="input-group">
                     <label for="SkinThicc">Skin Thickness</label>
-                    <input id="SkinThicc" name="skin_thickness" type="number"/>
+                    <input class="inptClass3" id="SkinThicc" name="skin_thickness" type="number" min="0"/>
                 </div>
 
                 <div class="input-group">
                     <label for="Insulin">Insulin</label>
-                    <input id="Insulin" name="insulin" type="number"/>
+                    <input class="inptClass4" id="Insulin" name="insulin" type="number" min="0"/>
                 </div>
 
                 <div class="input-group">
                     <label for="BMI">BMI</label>
-                    <input id="BMI" name="bmi" type="number"/>
+                    <input class="inptClass5" id="BMI" name="bmi" type="number" min="0"/>
                 </div>
 
                 <div class="input-group">
                     <label for="dpf">Diabetes Pedigree Function</label>
-                    <input id="dpf" name="diabetes_pedigree_function" type="number"/>
+                    <input class="inptClass6" id="dpf" name="diabetes_pedigree_function" type="number" min="0"/>
                 </div>
 
                 <div class="input-group">
                     <label for="age">Age</label>
-                    <input id="age" name="age" type="number"/>
+                    <input class="inptClass7" id="age" name="age" type="number" min="1" step="1"/>
                 </div>
 
-                <button class="glob" type="submit">Predict</button>
+                <div class="input-group">
+                    <button class="glob" type="submit">Predict</button>
+                    <div class="pred">  </div>
+                </div>
 
             </form>
         </section>
@@ -97,14 +100,19 @@ const pageTitle = "Home";
 
     
     <script>
+        var predVal;
         function handleFormSubmit(event) {
           event.preventDefault();
           let tokenToSend = `${localStorage.getItem("SavedToken")}`;
           var e = document.getElementById("selectedValue");
           var value = parseInt(e.value);
+          var predd = document.querySelector('.pred');
           const data = new FormData(event.target);
           const formJSON = {};
           const dataJSON = {};
+          var y;
+          var sth;
+          var isIt;
           console.log(data);
           data.forEach((value, key) => {
             dataJSON[key] = /^\d+$/.test(value) ? parseFloat(value) : value;
@@ -122,11 +130,82 @@ const pageTitle = "Home";
             },
             body: JSON.stringify(formJSON, null, 2)
           })
-           .then(response => response.json())
-           .then(response => console.log(JSON.stringify(response)));
+           .then(response => {
+            response.json().then(data => {
+                console.log(data);
+                predd.innerHTML = '';
+                sth = parseInt(data.prediction);
+                if (sth != 0 ) {
+                    isIt = false;
+                }
+                else{
+                    isIt = true;
+                }
+           y = document.createTextNode("Prediction: " + isIt);
+           predd.appendChild(y);
+           });
+        });
+
         }
-        
+        document.querySelector(".inptClass").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".inptClass1").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which == 46 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+document.querySelector(".inptClass2").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which == 46 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+document.querySelector(".inptClass3").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which == 46 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+document.querySelector(".inptClass4").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which == 46 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+document.querySelector(".inptClass5").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which == 46 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".inptClass6").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which == 46 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
+document.querySelector(".inptClass7").addEventListener("keypress", function (evt) {
+    if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+    {
+        evt.preventDefault();
+    }
+});
+
         const form = document.querySelector('.contact-form');
         form.addEventListener('submit', handleFormSubmit);
       </script>
 </BaseLayout>
+
+<style>
+    .pred{
+        float: right;
+    }
+</style>
