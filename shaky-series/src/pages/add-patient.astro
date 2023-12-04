@@ -1,4 +1,5 @@
 ---
+import Snack from '../components/Snack.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "Add Patient";
 ---
@@ -36,7 +37,7 @@ const pageTitle = "Add Patient";
             <button class="glob" type="submit">Add</button>
         </form>
     </section>
-
+    <Snack id="snackbar"></Snack>
     <script>
         function handleFormSubmit(event) {
           event.preventDefault();
@@ -61,7 +62,20 @@ const pageTitle = "Add Patient";
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(formJSON, null, 2)
-          })};
+          }).then(response => 
+     {
+      if (response.status == 404) {
+        response.json().then(data => {
+          var snack = document.getElementById("snackbar");
+snack.innerHTML = "";
+console.log(data["detail"]);
+snack.innerHTML += data["detail"];
+snack.className = "show";
+setTimeout(function(){ snack.className = snack.className.replace("show", ""); }, 3000);
+            });
+      }
+     });
+    };
         
         const form = document.querySelector('.contact-form');
         form.addEventListener('submit', handleFormSubmit);

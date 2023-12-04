@@ -111,7 +111,7 @@ const pageTitle = "Home";
           });
           formJSON["patient_id"] = value;
           formJSON["input"] = dataJSON;
-          console.log(formJSON);
+          console.log(JSON.stringify(formJSON, null, 2));
           fetch('http://127.0.0.1:8000/predict', {
             credentials: "same-origin",
             method: 'POST',
