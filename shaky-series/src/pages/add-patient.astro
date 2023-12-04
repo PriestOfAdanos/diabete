@@ -74,6 +74,15 @@ snack.className = "show";
 setTimeout(function(){ snack.className = snack.className.replace("show", ""); }, 3000);
             });
       }
+      if (response.status == 200) {
+        response.json().then(data => {
+          var snack = document.getElementById("snackbar");
+snack.innerHTML = "";
+snack.innerHTML += "Patient added correctly";
+snack.className = "show";
+setTimeout(function(){ snack.className = snack.className.replace("show", ""); }, 3000);
+            });
+      }
      });
     };
         
