@@ -44,6 +44,14 @@ Dokumentacja prezentuje API do predykcji cukrzycy zaimplementowane za pomocą Fa
 - Używa JWT do bezpiecznej autentykacji opartej na tokenach.
 - Szyfrowanie haseł dla bezpiecznego przechowywania i weryfikacji.
 
+## Baza danych
+- W projekcie użyta została baza danych SQLite
+- Baza danych zawiera 3 tabele
+   - diabetes - zawiera dane do szkolenia modelu
+   - patients - zawiera informacje o pacjencie oraz jego historię predykcji
+   - doctors  - zawiara listę kont wraz z zaszyfrowanymi hasłami algorytmem `bcrypt`
+- Wszystkie table (łącznie z nazwą tabeli i kolumn) są zaszyfrowane algorytmemt `md5` używając funkcji hashującej `SHA512` dzięki bibliotece SQLCipher
+
 ## Operacje na Bazie Danych
 - Wstawianie i pobieranie danych o cukrzycy.
 - Rejestracja użytkowników i autentykacja.
