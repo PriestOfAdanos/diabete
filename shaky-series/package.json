@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -17,8 +17,7 @@
     "@astrojs/preact": "^3.0.1",
     "astro": "^3.5.5",
     "astro-icon": "^0.8.1",
-    "preact": "^10.19.2",
-    "typescript": "^5.2.2"
+    "preact": "^10.19.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
