@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  fastapi:
+    build:
+      context: .  # Directory containing the Dockerfile for FastAPI
+      dockerfile: Dockerfile  # This is optional if your Dockerfile name is Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app  # We mount the current directory to /app directory inside docker
+    command: uvicorn app:app --host 0.0.0.0 --reload  # Replace with your start command
+
+  astro-framework:
+    build:
+      context: ./shaky-series  # Directory containing the Dockerfile for Astro
+      dockerfile: Dockerfile  # This is optional if your Dockerfile name is Dockerfile
+    ports:
+      - "4321:80"
+    volumes:
+      - ./shaky-series:/app  # We mount the shaky-series directory to /app directory inside docker
